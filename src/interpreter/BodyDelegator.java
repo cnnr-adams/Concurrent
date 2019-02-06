@@ -12,7 +12,13 @@ public class BodyDelegator implements Callable<DeclarationHandler> {
 	ParsedValue[] body;
 	public BodyDelegator(Scope scope, ParsedValue[] body) {
 		this.scope = new Scope(scope);
-		this.scope = scope;
+		this.body = body;
+	}
+	public BodyDelegator(Scope scope, ParsedValue[] body, ParsedValue[] scopeVars, DeclarationHandler[] toAssign) {
+		this.scope = new Scope(scope);
+		for(int i = 0; i < scopeVars.length; i++) {
+			this.scope.addDeclaration(scopeVars[i].tk.lexema, toAssign[i]);
+		}
 		this.body = body;
 	}
 
@@ -21,7 +27,9 @@ public class BodyDelegator implements Callable<DeclarationHandler> {
 		for(ParsedValue val : body) {
 			if(val.isFn) {
 				if(val.fn.title.token.equals(Token.TK_KEY_RETURN)) {
-					return new DeclarationHandler(true, new LineHandler(scope, val));
+					return new DeclarationHandler(true, new LineHandler(scope, val.fn.args[0]));
+				} else if(val.fn.title.token.equals(Token.TK_ASSIGN)) {
+					BaseFunctionHandler.invokeFunction(val.fn.title, scope, val.fn.args);
 				} else if(val.fn.isDec) {
 					// add fn to scope
 					scope.addDeclaration(val.fn.title.lexema, new DeclarationHandler(val));

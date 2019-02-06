@@ -20,6 +20,8 @@ public class BaseFunctionHandler {
 					fnClass.getMethod("assign", Scope.class, ParsedValue[].class));
 			baseFunctions.put("+",
 					fnClass.getMethod("add", Scope.class, ParsedValue[].class));
+			baseFunctions.put("-",
+					fnClass.getMethod("sub", Scope.class, ParsedValue[].class));
 			baseFunctions.put("print",
 					fnClass.getMethod("print", Scope.class, ParsedValue[].class));
 		} catch (NoSuchMethodException | SecurityException e) {

@@ -1,7 +1,4 @@
-let hi = "Hello";
-function wheat(a,b) {
-	return a + b;
+function size(a) {
+	return 1 - a;
 }
-let m = hi + "no";
-let c = wheat(hi,"cccc");
-print(c);
+print(size(5));

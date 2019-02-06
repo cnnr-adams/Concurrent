@@ -164,10 +164,11 @@ public class Parser {
 			LexemaTokenPair popped = input.pop();
 			Stack<LexemaTokenPair> toPreProcessor = new Stack<LexemaTokenPair>();
 			ArrayList<ParsedValue> toFn = new ArrayList<ParsedValue>();
-			while (!popped.lexema.equals(")")) {
+			int r = 1;
+			while (r != 0) {
 				// send each arg to parseline()
 				if (popped.lexema.equals(",")) {
-					ParseLine l = new ParseLine(preProcessLine(toPreProcessor));
+					ParseLine l = new ParseLine(preProcessLine(reverse(toPreProcessor)));
 					toPreProcessor = new Stack<LexemaTokenPair>();
 					ParsedValue result = l.parseLine();
 					toFn.add(result);
@@ -176,9 +177,14 @@ public class Parser {
 					toPreProcessor.push(popped);
 					popped = input.pop();
 				}
+				if(popped.lexema.equals(")")) {
+					r--;
+				} else if(popped.lexema.equals("(")) {
+					r++;
+				}
 			}
 			if(toPreProcessor.size() > 0) {
-				ParseLine l = new ParseLine(preProcessLine(toPreProcessor));
+				ParseLine l = new ParseLine(preProcessLine(reverse(toPreProcessor)));
 				toPreProcessor = new Stack<LexemaTokenPair>();
 				ParsedValue result = l.parseLine();
 				toFn.add(result);

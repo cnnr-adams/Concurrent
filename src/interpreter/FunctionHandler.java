@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 
 import interpreter.DynamicThreadPool.DeclarationHandler;
 import parser.Parsed.ParsedFunction;
+import parser.Parsed.ParsedValue;
 
 public class FunctionHandler implements Callable<DeclarationHandler> {
 	Scope scope;
@@ -21,8 +22,13 @@ public class FunctionHandler implements Callable<DeclarationHandler> {
 		if(d == null) {
 			return BaseFunctionHandler.invokeFunction(fn.title, scope, fn.args);
 		} else {
+			ParsedValue fnBody = d.getValue();
+			DeclarationHandler[] decs = new DeclarationHandler[fn.args.length];
+			for(int i = 0; i < fn.args.length; i++) {
+				decs[i] = new DeclarationHandler(true, new LineHandler(scope, fn.args[i]));
+			}
 			// create body run task
-			return new DeclarationHandler(true, new BodyDelegator(scope, d.getValue().fn.body));
+			return new DeclarationHandler(true, new BodyDelegator(scope, fnBody.fn.body, fnBody.fn.args, decs));
 		}
 	}
 

@@ -11,6 +11,9 @@ public class Main {
 	  Lexer l = new Lexer("main.con");
 	  Parser p = new Parser(l.lex());
 	  ParsedFunction s = new ParsedFunction(p.parse());
-	  new Interpreter(s.body).interpret();
+	  Interpreter i = new Interpreter(s.body);
+	  long cur = System.currentTimeMillis();
+	  i.interpret();
+	  System.out.println("Time Taken: " + (System.currentTimeMillis() - cur));
 	  }
 }

@@ -27,12 +27,29 @@ public class BaseFunctions {
 		ParsedValue ls = getLine(scope, args[0]).getValue();
 		ParsedValue rs = getLine(scope, args[1]).getValue();
 		if((ls.tk.token.equals(Token.REAL) || ls.tk.token.equals(Token.INTEGER)) && (rs.tk.token.equals(Token.REAL) || rs.tk.token.equals(Token.INTEGER))) {
-			double sum = Integer.parseInt(ls.tk.lexema) + Integer.parseInt(rs.tk.lexema);
+			double sum = Double.parseDouble(ls.tk.lexema) + Double.parseDouble(rs.tk.lexema);
 			return new DeclarationHandler(new ParsedValue(new LexemaTokenPair("" + sum, Token.REAL)));
 		} else {
 			return new DeclarationHandler(new ParsedValue(new LexemaTokenPair(ls.tk.lexema + rs.tk.lexema, Token.STRING)));
 		}
 	}
+	public static DeclarationHandler sub(Scope scope, ParsedValue[] args) {
+		ParsedValue ls = getLine(scope, args[0]).getValue();
+		ParsedValue rs = getLine(scope, args[1]).getValue();
+		if((ls.tk.token.equals(Token.REAL) || ls.tk.token.equals(Token.INTEGER)) && (rs.tk.token.equals(Token.REAL) || rs.tk.token.equals(Token.INTEGER))) {
+			double res = Double.parseDouble(ls.tk.lexema) - Double.parseDouble(rs.tk.lexema);
+			return new DeclarationHandler(new ParsedValue(new LexemaTokenPair("" + res, Token.REAL)));
+		} else {
+			System.out.println("cant sub strings");
+			return getVoid();
+		}
+//	}
+//	
+//	public static DeclarationHandler equality(Scope scope, ParsedValue[] args) {
+//		ParsedValue ls = getLine(scope, args[0]).getValue();
+//		ParsedValue rs = getLine(scope, args[1]).getValue();
+//		
+//	}
 	
 	private static DeclarationHandler getVoid() {
 		return new DeclarationHandler(new ParsedValue(new LexemaTokenPair("void", Token.TK_VOID)));
