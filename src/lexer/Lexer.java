@@ -43,7 +43,6 @@ public class Lexer {
           System.out.println("-----------------");
           List<LexemaTokenPair> lst = new ArrayList<LexemaTokenPair>();
           while (!isExausthed()) {
-              System.out.printf("%-18s :  %s \n",currentLexema() , currentToken());
               lst.add(new LexemaTokenPair(currentLexema(), currentToken()));
               moveAhead();
           }
@@ -94,7 +93,6 @@ public class Lexer {
     private boolean findNextToken() {
         for (Token t : Token.values()) {
             int end = t.endOfMatch(input.toString());
-
             if (end != -1) {
                 token = t;
                 lexema = input.substring(0, end);

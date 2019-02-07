@@ -1,4 +1,8 @@
 function size(a) {
-	return 1 - a;
+	return cond {
+		case(a == 5, "a is 5");
+		case(a == 6, "a is 6");
+		default("suck my cuck");
+	}
 }
 print(size(5));

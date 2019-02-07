@@ -17,7 +17,11 @@ public class DynamicThreadPool {
 	}
 	
 	public static <T> Future<T> execute(Callable<T> c) {
-		return threadService.submit(c);
+		if(threadService.isShutdown()) {
+			return null;
+		} else {
+			return threadService.submit(c);
+		}
 	}
 	
 	public static void awaitTermination() {
@@ -28,6 +32,11 @@ public class DynamicThreadPool {
 			e.printStackTrace();
 		}
 	}
+	
+	public static void terminate() {
+		 //threadService.shutdownNow();
+	}
+	
 	public static class DeclarationHandler {
 		private Future<ParsedValue> threadedValue;
 		private ParsedValue pureValue;

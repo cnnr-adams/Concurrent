@@ -53,7 +53,7 @@ public class ParseLine {
 		ParsedValue op1 = operands.pop();
 		ParsedValue op2 = operands.pop();
 		LexemaTokenPair operator = operators.pop();
-		operands.push(new ParsedValue(new ParsedFunction(operator, op2, op1)));
+		operands.push(new ParsedValue(new ParsedFunction(operator, op1, op2)));
 		// add to operands stack
 	}
 	

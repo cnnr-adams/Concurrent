@@ -28,8 +28,12 @@ public class BodyDelegator implements Callable<DeclarationHandler> {
 			if(val.isFn) {
 				if(val.fn.title.token.equals(Token.TK_KEY_RETURN)) {
 					return new DeclarationHandler(true, new LineHandler(scope, val.fn.args[0]));
+				} else if(val.fn.title.token.equals(Token.TK_WAIT)) {
+					return new DeclarationHandler(new DeclarationHandler(true, new LineHandler(scope, val.fn.args[0])).getValue());
+				} else if(val.fn.title.token.equals(Token.TK_KEY_COND)) {
+					BaseFunctionHandler.invokeFunction(val.fn.title, scope, val.fn.args, val.fn.body);
 				} else if(val.fn.title.token.equals(Token.TK_ASSIGN)) {
-					BaseFunctionHandler.invokeFunction(val.fn.title, scope, val.fn.args);
+					BaseFunctionHandler.invokeFunction(val.fn.title, scope, val.fn.args, val.fn.body);
 				} else if(val.fn.isDec) {
 					// add fn to scope
 					scope.addDeclaration(val.fn.title.lexema, new DeclarationHandler(val));

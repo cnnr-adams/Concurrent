@@ -8,7 +8,7 @@ import interpreter.Interpreter;
 public class Main {
 	  public static void main(String[] args)throws Exception 
 	  { 
-	  Lexer l = new Lexer("main.con");
+	  Lexer l = new Lexer("find-primes.con");
 	  Parser p = new Parser(l.lex());
 	  ParsedFunction s = new ParsedFunction(p.parse());
 	  Interpreter i = new Interpreter(s.body);

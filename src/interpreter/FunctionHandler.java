@@ -20,7 +20,7 @@ public class FunctionHandler implements Callable<DeclarationHandler> {
 		DeclarationHandler d = scope.lookup(fn.title.lexema);
 		// not in scope, try global?
 		if(d == null) {
-			return BaseFunctionHandler.invokeFunction(fn.title, scope, fn.args);
+			return BaseFunctionHandler.invokeFunction(fn.title, scope, fn.args, fn.body);
 		} else {
 			ParsedValue fnBody = d.getValue();
 			DeclarationHandler[] decs = new DeclarationHandler[fn.args.length];

@@ -17,25 +17,36 @@ public class BaseFunctionHandler {
 		Class<BaseFunctions> fnClass = BaseFunctions.class;
 		try {
 			baseFunctions.put("=",
-					fnClass.getMethod("assign", Scope.class, ParsedValue[].class));
+					fnClass.getMethod("assign", Scope.class, ParsedValue[].class, ParsedValue[].class));
 			baseFunctions.put("+",
-					fnClass.getMethod("add", Scope.class, ParsedValue[].class));
+					fnClass.getMethod("add", Scope.class, ParsedValue[].class, ParsedValue[].class));
+			baseFunctions.put("%",
+					fnClass.getMethod("modulus", Scope.class, ParsedValue[].class, ParsedValue[].class));
 			baseFunctions.put("-",
-					fnClass.getMethod("sub", Scope.class, ParsedValue[].class));
+					fnClass.getMethod("sub", Scope.class, ParsedValue[].class, ParsedValue[].class));
+			baseFunctions.put("==",
+					fnClass.getMethod("equality", Scope.class, ParsedValue[].class, ParsedValue[].class));
+			baseFunctions.put("case",
+					fnClass.getMethod("caseStatement", Scope.class, ParsedValue[].class, ParsedValue[].class));
 			baseFunctions.put("print",
-					fnClass.getMethod("print", Scope.class, ParsedValue[].class));
+					fnClass.getMethod("print", Scope.class, ParsedValue[].class, ParsedValue[].class));
+			baseFunctions.put("wait",
+					fnClass.getMethod("wait", Scope.class, ParsedValue[].class, ParsedValue[].class));
+			baseFunctions.put("cond",
+					fnClass.getMethod("condStatement", Scope.class, ParsedValue[].class, ParsedValue[].class));
 		} catch (NoSuchMethodException | SecurityException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
-	public static DeclarationHandler invokeFunction(LexemaTokenPair fn, Scope scope, ParsedValue[] args) {
+	public static DeclarationHandler invokeFunction(LexemaTokenPair fn, Scope scope, ParsedValue[] args, ParsedValue[] body) {
 		try {
 			Method fne = baseFunctions.get(fn.lexema);
-			return (DeclarationHandler)fne.invoke(null, scope, args);
+			return (DeclarationHandler)fne.invoke(null, scope, args, body);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Method to invoke not found: " + fn.lexema);
+			DynamicThreadPool.terminate();
 			e.printStackTrace();
 			return null;
 		}
